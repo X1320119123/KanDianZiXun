@@ -1,0 +1,206 @@
+<div id="category">
+	<div class="rb-button">
+		<button class="addLanmu">新 增</button>
+		<button class="batchDel">批量删除</button>
+	</div>
+	<table class="table lanmuTable text-center table-bordered">
+		<tr>
+			<td>编号</td>
+			<td>栏目名称</td>
+			<td>父栏目</td>
+			<td>描述</td>
+			<td>操作</td>
+		</tr>
+	</table>
+	<div class="modal lanmuModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<div class="backDiv">
+						<i class="iconfont icon-zuo"></i>
+						<span>返 回</span>
+					</div>
+					<div>添加栏目</div>
+				</div>
+				<div class="modal-body">
+					<form class="form">
+						<div class="form-group">
+							<label for="">栏目名称</label>
+							<input type="text" class="form-control" name="lanmuName">
+						</div>
+						<div class="form-group">
+							<label for="">父栏目</label>
+							<select name="fuLanmu" id="" class="form-control">
+								<option value="">请选择</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="">描述</label>
+							<textarea class="form-control" name="description" id="" cols="30" rows="5"></textarea>
+						</div>
+						<div class="form-group">
+							<button type="reset" class="hide">重置</button>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<span class="messageSpan"></span>
+					<button class="btn btn-sm bg-success submit">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="alertDiv1 hide">
+		<div class="alert alert-success">
+			<strong>提示:</strong>
+			<span>删除成功</span>
+		</div>
+	</div>
+</div>
+<script>
+	$(function(){
+		var categories = [];
+		var option = "新增";
+		var currentId = '';
+		loadData();
+		// 删除
+		$('.lanmuTable').on({
+			click:function(){
+				var currentId = $(this).closest('tr').find('input[type=checkbox]').val();
+				$.get('http://120.78.164.247:8099/manager/category/deleteCategoryById',{id:currentId},function(res){
+					if(res.status == 200){
+						$('ul li')[1].click();
+					} else {
+						alert('删除失败');
+						console.log(res.message);
+					}
+				});
+			}
+		},'i[title=删除]');
+		// 批量删除
+		$('.batchDel').click(function(){
+			var ids = $('.lanmuTable input[type=checkbox]:checked').map(function(index,item){
+				return $(item).val();
+			}).get();
+			console.log(ids);
+			var obj = {
+				ids: ids.toString()
+			};
+			$.post(baseURL+'/manager/category/batchDeleteCategory',obj,function(res){
+				if(res.status==200){
+					loadData();
+				} else {
+					alert('删除失败');
+					console.log(res.message);
+				}
+			});
+		});
+		// 新增
+		$('.addLanmu').click(function(){
+			$('button[type=reset]').trigger('click');
+			addOption();
+		});
+		// 修改
+		$('#category table').on({
+			click:function(){
+				option = "修改";
+				// 获取当前要修改的id,获取对应的对象,给模态框中设置值,[select比较麻烦,获取所有栏目追加option,设置值]模态框显示
+				//  清空提示信息
+				$('.messageSapn').html('');
+				var id = $(this).closest('tr').find('input[type=checkbox]').val();
+				currentId = id;
+				var cat = categories.filter(function(item){
+					return item.id == id;
+				})[0];
+				// 设置值
+				$('input[name=lanmuName]').val(cat.name);
+				$('textarea[name=description]').val(cat.comment);
+				addOption(function(){
+					$('select[name=fuLanmu]').val(cat.parent?cat.parent.id:'');
+				});
+			}
+		},'i[title=修改]');
+		// 返回
+		$('.backDiv').click(function(){
+			$('.messageSpan').html('');
+			$('.lanmuModal').hide();
+		});
+		// 提交
+		$('.submit').click(function(){
+			var lanmuName = $('input[name=lanmuName]').val();
+			var fuLanmu = $('select[name=fuLanmu]').val();
+			var description = $('textarea[name=description]').val();
+			var message = "";
+			if(lanmuName&&description){
+				var obj = {
+					name: lanmuName,
+					comment: description,
+					no: '',
+					parentId: fuLanmu,
+				}
+				if(option == '修改'){
+					obj.id = currentId;
+				}
+				$.post(baseURL+'/manager/category/saveOrUpdateCategory',obj,function(res){
+					console.log(res,'保存成功');
+					loadData();
+					$('.lanmuModal').hide();
+				});
+			} else {
+				message = '请填写完整信息';
+			}
+			$('.messageSpan').html(message);
+		});
+		function addOption(handle){
+			$('.lanmuModal select option:not(:first)').remove();
+			$.get(baseURL+'/manager/category/findAllCategory',function(res){
+				res.data.forEach(function(item){
+					var $option = $('<option value="'+item.id+'">'+item.name+'</option>');
+					$('.lanmuModal select').append($option);
+					});
+				if(handle){
+					handle();
+				}
+				$('.lanmuModal').show();
+			});
+		}
+		function loadData(){
+			$('.lanmuTable tr:not(:first)').remove();
+			$.get(baseURL+'/manager/category/findAllCategory',function(res){
+				categories = res.data;
+				res.data.forEach(function(item){
+					$(`<tr>
+						<td><input type="checkbox" value="`+item.id+`"></td>
+						<td>`+item.name+`</td>
+						<td>`+(item.parent?item.parent.name:'-')+`</td>
+						<td>`+item.comment+`</td>
+						<td>
+							<i class="iconfont icon-edit-1-copy" title="修改"></i>
+							<i class="iconfont icon-shanchu" title="删除"></i>
+						</td>
+					</tr>`).appendTo($('.lanmuTable'));
+				});
+				
+		   });
+		}
+	});
+</script>
+<style>
+.lanmuTable {
+	margin-top: 20px;
+}
+.alertDiv1 {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 300px;
+}
+#category table i {
+	color: #66bb0d;
+	cursor: pointer;
+}
+#category table i:nth-child(2) {
+	color: red;
+	margin-left: 10px;
+}
+</style>

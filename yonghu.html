@@ -1,0 +1,165 @@
+<div class="userDiv">
+	<button class="addUserBtn">新 增</button>
+	<div class="userHome"></div>
+	<div class="modal" id="userModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header text-center">
+					<div class="backDiv">
+						<i class="iconfont icon-zuo"></i>
+						<span>返 回</span>
+					</div>
+					<div>添加用户</div>
+				</div>
+				<div class="modal-body">
+					<form class="form">
+						<div class="form-group">
+							<label for="">用户名</label>
+							<input type="text" class="form-control" name="username">
+						</div>
+						<div class="form-group">
+							<label for="">密码</label>
+							<input type="password" class="form-control" name="password">
+						</div>
+						<div class="form-group">
+							<label for="">重复密码</label>
+							<input type="password" class="form-control" name="password1">
+						</div>
+						<div class="form-group">
+							<label for="">真实姓名</label>
+							<input type="text" class="form-control" name="nickname">
+						</div>
+						<div class="form-group">
+							<label for="">邮箱</label>
+							<input type="text" class="form-control" name="email">
+						</div>
+						<div class="form-group">
+							<button type="reset" class="hide">重置</button>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<span class="messageSpan"></span>
+					<button class="btn btn-sm bg-success submit">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="alertDiv">
+		<div class="alert alert-success">
+			<strong>提示:</strong>
+			<span>执行成功</span>
+		</div>
+	</div>
+</div>
+<script>
+	$(function(){
+		updata();
+		function updata(){
+			$('.userHome').empty();
+			$.get(baseURL+'/manager/user/findAllUser',function(res){
+				console.log(res.data);
+				res.data.forEach(function(item,index){
+					// 创建缩略图，追加
+					var $thm = $(`<div class="col-sm-4 ziuser">
+					    <div class="thumbnail">
+					      <img class="img-circle" style="width:150px;height:150px;" src="`+(item.userface?item.userface:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1514093920321&di=913e88c23f382933ef430024afd9128a&imgtype=0&src=http%3A%2F%2Fp.3761.com%2Fpic%2F9771429316733.jpg')+`" alt="...">
+					      <div class="caption">
+					        <div class="row">
+					        	<div class="col-sm-4 col-sm-offset-1">用户名</div>
+					        	<div class="col-sm-7 userToLang">`+(item.username?item.username:'-')+`</div>
+					        </div>
+					        <div class="row">
+					        	<div class="col-sm-4 col-sm-offset-1">真实姓名</div>
+					        	<div class="col-sm-7 userToLang">`+(item.nickname?item.nickname:'-')+`</div>
+					        </div>
+					        <div class="row">
+					        	<div class="col-sm-4 col-sm-offset-1">注册时间</div>
+					        	<div class="col-sm-7 userToLang">`+(item.regTime?item.regTime:'-')+`</div>
+					        </div>
+					        <div class="row">
+					        	<div class="col-sm-4 col-sm-offset-1">email</div>
+					        	<div class="col-sm-7 userToLang">`+(item.email?item.email:'-')+`</div>
+					        </div>
+					        <div class="row">
+					        	<div class="col-sm-4 col-sm-offset-1">状态</div>
+					        	<div class="col-sm-7">
+					        		<input type="hidden" value="`+item.id+`">
+					        		<div class="switch">
+								      <input type="checkbox"/>
+								   </div>
+					        	</div>
+					        </div>
+					      </div>
+						  </div>
+						</div>`);
+					$('.userHome').append($thm);
+					// 初始化复选按钮，开关按钮
+					$('.switch input[type=checkbox]').bootstrapSwitch('state',item.enabled);
+				});
+			});
+		}
+		$('.addUserBtn').click(function(){
+			$('.messageSpan').html('');
+			$('button[type=reset]').trigger('click');
+			$('#userModal').show();
+		});
+		$('.backDiv').click(function(){
+			$('#userModal').hide();
+		});
+		$('.submit').click(function(){
+			var username = $('input[name=username]').val();
+			var password = $('input[name=password]').val();
+			var password1 = $('input[name=password1]').val();
+			var nickname = $('input[name=nickname]').val();
+			var email = $('input[name=email]').val();
+			var message = "";
+			if(username&&password&&password1&&nickname&&email){
+				if(password==password1){
+					// 保存
+					var obj = {
+						username: username,
+						password: password,
+						nickname: nickname,
+						email: email
+					}
+					$.post(baseURL+'/manager/user/saveOrUpdateUser',obj,function(res){
+						console.log(res,'保存成功');
+					});
+					updata();
+					$('#userModal').hide();
+					$('.alertDiv').addClass('animated slideInRight');
+					$('.alertDiv').show();
+					setTimeout(function(){
+						$('.alertDiv').fadeOut();
+					},2000);
+				} else {
+					message = "两次密码不一致";
+				}
+			} else {
+				message = "请输入完整信息";
+			}
+			$('.messageSpan').html(message);
+		});
+	});
+</script>
+<style>
+   .userDiv {
+   	background-color: white;
+   	padding: 10px;
+   }
+   .userHome {
+   	overflow: hidden;
+   }
+   .userToLang {
+   	height: 20px;
+   	overflow: hidden;
+   }
+   .userHome .ziuser {
+   	padding: 10px;
+   	margin-top: 20px;
+   }
+	#userModal {
+    	background-color: rgba(0,0,0,.4);
+	}
+</style>

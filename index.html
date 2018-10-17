@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>首页</title>
+	<link rel="stylesheet" href="bootstrap-3.3.7/css/bootstrap.css">
+	<link rel="stylesheet" href="css/bootstrapSwitch/css/bootstrap3/bootstrap-switch.min.css">
+	<link rel="stylesheet" href="css/shouye.css">
+	<link rel="stylesheet" href="css/iconFont/iconfont.css">
+	<script src="jquery-3.3.1/jquery-3.3.1.min.js"></script>
+	<script src="css/bootstrapSwitch/js/bootstrap-switch.min.js"></script>
+	<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+	<script src="js/config.js"></script>
+	<script>
+		$(function(){
+			$('.r-bottom').load('shouye.html');
+			$('ul li')[0].onclick = function(){
+				$('.r-bottom').load('shouye.html');
+			}
+			$('ul li')[1].onclick = function(){
+				$('.r-bottom').load('lanmu.html');
+			}
+			$('ul li')[2].onclick = function(){
+				$('.r-bottom').load('zixun.html');
+			}
+			$('ul li')[3].onclick = function(){
+				$('.r-bottom').load('yonghu.html');
+			}
+		});
+	</script>
+</head>
+<body>
+	<div class="container">
+		<div class="left col-sm-2">
+			<div class="l-top">
+				<div class="col-sm-3">
+					<img src="images/u9.png" alt="">
+				</div>
+				<div class="col-sm-9">看点咨询</div>
+			</div>
+			<div class="l-bottom">
+				<ul>
+					<li>
+						<div class="col-sm-2"><img src="images/u1.png" alt=""></div>
+						<div class="col-sm-7"><span>首页</span></div>
+						<div class="col-sm-3"><img src="images/u0.png" alt=""></div>
+					</li>
+					<li>
+						<div class="col-sm-2"><img src="images/u2.png" alt=""></div>
+						<div class="col-sm-7"><span>栏目管理</span></div>
+						<div class="col-sm-3"><img src="images/u0.png" alt=""></div>
+					</li>
+					<li>
+						<div class="col-sm-2"><img src="images/u3.png" alt=""></div>
+						<div class="col-sm-7"><span>资讯管理</span></div>
+						<div class="col-sm-3"><img src="images/u0.png" alt=""></div>
+					</li>
+					<li>
+						<div class="col-sm-2"><img src="images/u4.png" alt=""></div>
+						<div class="col-sm-7"><span>用户管理</span></div>
+						<div class="col-sm-3"><img src="images/u0.png" alt=""></div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="right col-sm-10">
+			<div class="r-top">
+				<div class="rt-1">
+					<a href=""><img src="images/u11.png" alt=""></a>
+				</div>
+				<div class="rt-1">
+					<a href=""><img src="images/u12.png" alt=""></a>
+				</div>
+				<div class="col-sm-2 col-sm-offset-9">
+					<img src="images/u13.png" alt="">
+					<span>乔美丽></span>
+				</div>
+			</div>
+			<div class="r-bottom"></div>
+		</div>
+	</div>
+</body>
+</html>

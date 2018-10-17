@@ -1,0 +1,122 @@
+ul, li {
+	list-style: none;
+	padding: 0;
+}
+.container {
+	height: 800px;
+	overflow: hidden;
+}
+.left {
+	height: 100%;
+	background-color: #282830;
+	padding: 0;
+	color: white;
+}
+.l-top {
+	position: relative;
+	height: 40px;
+	line-height: 40px;
+	background-color: #3d556d;
+	cursor: pointer;
+}
+.l-bottom {
+	position: relative;
+	margin-top: 40px;
+}
+.l-bottom li {
+	position: relative;
+	line-height: 40px;
+	overflow: hidden;
+	border-bottom: 1px solid #313132;
+	cursor: pointer;
+}
+.right {
+	height: 100%;
+	background-color: #f0f0f0;
+	padding: 0;
+	border-right: 2px solid #f0f0f0;
+}
+.r-top {
+	line-height: 40px;
+	overflow: hidden;
+	background-color: #fff;
+}
+.rt-1{
+	float: left;
+	padding: 0 10px;
+}
+.r-bottom {
+	height: 760px;
+	padding: 10px;
+}
+.rb-top {
+	height: 240px;
+	margin-bottom: 10px;
+}
+.rb-bottom {
+	height: 320px;
+}
+
+
+.rbt-left {
+	height: 70px;
+	background-color: #fff;
+	margin-bottom: 15px;
+}
+.rbt-left3 {
+	margin: 0;
+}
+.rbt-left {
+    position: relative;
+}
+.rbt-left > div:first-child {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 50px;
+	background-color: #64bb12;
+}
+.rbt-left > div:last-child {
+    position: absolute;
+    top: 10px;
+    right: 40px;
+}
+.rbt-left span {
+	font-size: 25px;
+}
+.rbt-left .span2 {
+	font-size: 8px;
+}
+.r-bottom {
+	height: 750px;
+	overflow: auto;
+}
+
+
+.modal-dialog {
+	width: 300px;
+	margin-right: 190px;
+	margin-top: 0;
+}
+.modal-content {
+	height: 800px;
+}
+.backDiv {
+	float: left;
+	cursor: pointer;
+}
+.form label{
+	font-weight: normal;
+}
+.alertDiv {
+	display: none;
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	width: 300px;
+}
+

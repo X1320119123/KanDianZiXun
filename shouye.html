@@ -1,0 +1,450 @@
+<div id="home">
+	<div class="outerDiv">
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="totalDiv bg-white">
+					<div class="iconDiv bg-green">
+						<i class="iconfont icon-yun"></i>
+					</div>
+					<div class="numDiv">
+						<span>99.9%</span>
+						<small>SERVER UPTIME</small>
+					</div>
+				</div>
+				<div class="totalDiv bg-white">
+					<div class="iconDiv bg-purple">
+						<i class="iconfont icon-user"></i>
+					</div>
+					<div class="numDiv">
+						<span>117K</span>
+						<small>USERS TOTAL</small>
+					</div>
+				</div>
+				<div class="totalDiv bg-white">
+					<div class="iconDiv bg-blue">
+						<i class="iconfont icon-18"></i>
+					</div>
+					<div class="numDiv">
+						<span>2,470</span>
+						<small>NEW DAILY PHOTOS</small>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="visDiv">
+					<div id="visContainer"></div>
+					<div class="numDiv">
+						<span>14.85%</span>
+						<small>More visitors</small>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="uptimeDiv">
+					<div id="uptimeContainer"></div>
+					<div class="numDiv">
+						<span class="font-purple">95.8%</span>
+						<small>CUMMENT SERVER UPTIME</small>
+					</div>
+				</div>
+				<div class="salesDiv">
+					<div id="salesContainer"></div>
+					<div class="numDiv">
+						<span>32,045</span>
+						<small>AVG OF SALES</small>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="shanqu"></div>
+				<div class="pageviews gao60"></div>
+				<div class="visitors gao60"></div>
+				<div class="converted gao60"></div>
+			</div>
+			<div class="col-sm-6">
+				<div class="downloadSpeed"></div>
+				<div class="cpuUsage"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(function(){
+		draw();
+		drawVis();
+		drawSales();
+		/*drawShan();
+		function drawShan(){
+			var chart = Highcharts.chart('shanqu', {
+				chart:{
+					margin:[0,0,0,0],
+				},
+				credits:{
+					enabled:false
+				},
+				var data = [{
+					'id': '0.0',
+					'parent': '',
+					'name': 'all'
+				}, {
+					'id': '1.1',
+					'parent': '0.0',
+					'name': ''
+				}, {
+					'id': '1.2',
+					'parent': '0.0',
+					'name': '',
+				}, {
+					'id': '1.3',
+					'parent': '0.0',
+					'name': '',
+				}, {
+					'id': '2.1',
+					'parent': '1.1',
+					'name': '',
+				}, {
+					'id': '2.2',
+					'parent': '1.1',
+					'name': '',
+				}, {
+					'id': '2.3',
+					'parent': '1.2',
+					'name': '',
+				}, {
+					'id': '2.4',
+					'parent': '1.3',
+					'name': '',
+				}, {
+					'id': '3.1',
+					'parent': '2.1',
+					'name': '',
+				}, {
+					'id': '3.2',
+					'parent': '2.1',
+					'name': '',
+				}, {
+					'id': '3.3',
+					'parent': '2.2',
+					'name': '',
+				}, {
+					'id': '3.4',
+					'parent': '2.2',
+					'name': '',
+				}, {
+					'id': '3.5',
+					'parent': '2.3',
+					'name': '',
+				}, {
+					'id': '4.1',
+					'parent': '3.1',
+					'name': '',
+					'value': 19.1
+				}, {
+					'id': '4.2',
+					'parent': '3.2',
+					'name': '',
+					'value': 9.6
+				}, {
+					'id': '4.3',
+					'parent': '3.2',
+					'name': '',
+					'value': 21.3
+				}, {
+					'id': '4.4',
+					'parent': '3.3',
+					'name': '',
+					'value': 14.8
+				}, {
+					'id': '4.5',
+					'parent': '3.4',
+					'name': '',
+					'value': 30.4
+				}, {
+					'id': '4.6',
+					'parent': '3.5',
+					'name': '',
+					'value': 4.8
+				}];
+				Highcharts.getOptions().colors.splice(0, 0, 'transparent');
+				Highcharts.chart('container', {
+					chart: {
+						height: '100%'
+					},
+					title: {
+						text: ''
+					},
+					subtitle: {
+						text: ''
+					},
+					plotOptions: {
+						sunburst: {
+							dataLabels: {
+								enabled: true,
+								distance: -50,
+								style: {
+									fontWeight: 'bold',
+									color: 'white',
+									textShadow: '0px 1px 2px black'
+								}
+							},
+							startAngle: -120, // 圆环的开始角度
+							endAngle: 120,    // 圆环的结束角度
+							center: ['50%', '75%']
+						}
+					},
+					series: [{
+						type: "sunburst",
+						data: data,
+						allowDrillToNode: true,
+						cursor: 'pointer',
+						dataLabels: {
+							formatter: function () {
+								var shape = this.point.node.shapeArgs;
+								var innerArcFraction = (shape.end - shape.start) / (2 * Math.PI);
+								var perimeter = 2 * Math.PI * shape.innerR;
+								var innerArcPixels = innerArcFraction * perimeter;
+								if (innerArcPixels > 16) {
+									return this.point.name;
+								}
+							}
+						},
+						levels: [{
+							level: 2,
+							colorByPoint: true,
+							dataLabels: {
+								rotationMode: 'parallel'
+							}
+						},
+								 {
+									 level: 3,
+									 colorVariation: {
+										 key: 'brightness',
+										 to: -0.5
+									 }
+								 }, {
+									 level: 4,
+									 colorVariation: {
+										 key: 'brightness',
+										 to: 0.5
+									 }
+								 }]
+					}],
+					tooltip: {
+						headerFormat: "",
+						pointFormat: '<b>{point.name}</b>的占比是：<b>{point.value}</b>%'
+					}
+				});
+			}
+		}*/
+		function drawSales(){
+			var chart = Highcharts.chart('salesContainer', {
+				chart: {
+					margin : [0, 0 , 0, 100]
+				},
+				colors:['#69b72a'],
+				title: {
+					floating:true,
+					text: ''
+				},
+				credits:{
+					enabled:false
+				},
+				tooltip: {
+					pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+				},
+				plotOptions: {
+					pie: {
+						allowPointSelect: true,
+						cursor: 'pointer',
+						dataLabels: {
+							enabled: false,
+						},
+					}
+				},
+				series: [{
+					type: 'pie',
+					innerSize: '60%',
+					name: 'Sales',
+					data: [
+						['Firefox',45.0],
+						['IE',26.8],
+						['Chrome',12.8],
+						['Safari',8.5],
+						['Opera',6.2],
+						['其他',0.7]
+					]
+				}]
+			});
+		}
+		function drawVis(){
+			var chart = Highcharts.chart('uptimeContainer', {
+				chart:{
+					margin:[0,0,0,0],
+				},
+				colors:['purple'],
+				title: {
+					text: ''
+				},
+				credits:{
+					enabled:false
+				},
+				xAxis: {
+					visible: false
+				},
+				yAxis: {
+					visible: false
+				},
+				series: [{
+					type: 'column',
+					colorByPoint: true,
+					data: [29.9, 71.5, 29.9, 71.5, 106.4, 129.2, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4,29.9, 194.1, 95.6, 54.4,29.9, 71.5, 106.4, 129.2,],
+					showInLegend: false
+				}]
+			});
+		}
+		function draw(){
+			// 绘制
+			var chart = Highcharts.chart('visContainer', {
+				chart:{
+					margin:[0,0,0,0],
+				},
+				colors:['#00ff00','#ccc'],
+				credits:{
+					enabled:false
+				},
+				title: {
+					text: ''
+				},
+				yAxis: {
+					title: {
+						text: ''
+					},
+					visible:false
+				},
+				xAxis:{
+					visible:false
+				},
+				legend: {
+					layout: 'vertical',
+					floating: true,
+					align: 'right',
+					verticalAlign: 'top'
+				},
+				plotOptions: {
+					series: {
+						label: {
+							connectorAllowed: false
+						},
+						pointStart: 2010
+					}
+				},
+				series: [{
+					name: 'Pageviews',
+					data: [43934, 52503, 57177, 69658, 97031, 59931, 87133, 104175,64916, 43934, 52503, 57177, 69658, 97031, 119931, 137133, 184175,54916, 74064, 99746, 109851, 56490, 50686, 58161, 40454, 64064, 69746, 69851, 36490, 30686, 38161, 40434]
+				}, {
+					name: 'Visitors',
+					data: [14916, 24064, 29742, 29851, 32490, 30282, 38121, 40434, 14916, 14064, 19741, 19851, 11490, 20181, 8121, 10434, 14916, 24064, 29742, 29851, 32490, 30282, 38121, 40434, 14916, 14064, 19741, 19851, 11490, 20181, 8121, 10434]
+				}],
+			});
+		}
+	});
+</script>
+<style>
+	/*#home{
+		color: red;
+	}*/
+	.bg-white {
+		background-color: #fff;
+	}
+	.bg-green {
+		background-color: #66ba10;
+	}
+	.bg-purple {
+		background-color: #7c31bf;
+	}
+	.bg-blue {
+		background-color: #37bbea;
+	}
+	.font-purple {
+		color: #7c31bf;
+	}
+	.outerDiv {
+		width: 95%;
+	}
+	.totalDiv {
+		overflow: hidden;
+		padding: 10px;
+		border-radius: 5px;
+		margin-top: 10px;
+	}
+	.iconDiv , .numDiv {
+		float: left;
+	}
+	.iconDiv {
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		text-align: center;
+		margin-left: 5px;
+	}
+	.iconDiv i{
+		line-height: 50px;
+		color: white;
+		font-size: 24px;
+		font-weight: bolder;
+	}
+	.numDiv {
+		margin-left: 10px;
+		padding-top: 8px;
+	}
+	.numDiv span {
+		font-size: 24px;
+		line-height: 24px;
+	}
+	.numDiv small {
+		display: block;
+		font-size: 10px;
+		line-height: 8px;
+	}
+	#visContainer {
+		margin-top: 10px;
+		height: 230px;
+	}
+	.visDiv , .uptimeDiv , .salesDiv{
+		position: relative;
+	}
+	.visDiv .numDiv , .uptimeDiv .numDiv , .salesDiv .numDiv {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+	}
+	.visDiv .numDiv span {
+		color: green;
+		font-weight: bolder;
+	}
+	.salesDiv .numDiv span {
+		color: #69b72a;
+		font-weight: bolder;
+	}
+	.uptimeDiv , .salesDiv {
+		margin-top: 10px;
+	}
+	#uptimeContainer , #salesContainer {
+		height: 110px;
+	}
+	.row {
+		margin-bottom: 30px;
+	}
+	.shanqu , .downloadSpeed {
+		height: 240px;
+	}
+	.gao60 {
+		height: 60px;
+	}
+	.cpuUsage {
+		height: 150px;
+		margin-top: 30px;
+	}
+</style>
